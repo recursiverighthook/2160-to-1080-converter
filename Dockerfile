@@ -4,4 +4,4 @@ RUN apt-get update -y && apt install handbrake-cli -y
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
-ENTRYPOINT [ "python3", "main.py"]
+ENTRYPOINT [ "python3", "main.py", "--path", "/movies"]

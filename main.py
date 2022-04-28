@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 def find_movies(path):
-    files = glob.glob(path + "/**/*", recursive=True)
+    files = glob.glob(path + "**/*", recursive=True)
     files_to_reduce = []
     for f in files:
         size = os.path.getsize(f)
@@ -26,7 +26,7 @@ def optimize_movies(path):
     bashCommand = 'HandBrakeCLI -O -e x264 --preset=\"Super HQ 1080p30 Surround\" -i \'%s\' -o \'%s\'' % (
     path, new_name)
     print(bashCommand)
-    os.system(bashCommand)
+    #os.system(bashCommand)
 
 
 if __name__ == '__main__':
