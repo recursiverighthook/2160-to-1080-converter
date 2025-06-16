@@ -14,20 +14,34 @@ def find_movies(path):
     return files_to_reduce
 
 
+
 def optimize_movies(path):
     file = Path(path)
     parent_folder = file.parent
     new_name = os.path.splitext(os.path.join(parent_folder, file.name))[0]
-    if os.path.splitext(file)[1] != ".mp4":
+    if file.suffix != ".mp4":
         new_name += '.mp4'
     else:
         new_name += '.mkv'
 
-    bashCommand = 'HandBrakeCLI -O -e nvenc_h265 --preset=\"Super HQ 1080p30 Surround\" --optimize -i \'%s\' -o \'%s\'' % (
-    path, new_name)
-    print(bashCommand)
-    os.system(bashCommand)
-    os.system('rm \'%s\'' % path)
+    bash_command = [
+        "HandBrakeCLI",
+        "-O",
+        "-e", "x265",
+        "--preset=HQ 1080p30 Surround",
+        "--optimize",
+        "-i", str(path),
+        "-o", new_name
+    ]
+
+    print("Running command:", " ".join(bash_command))
+    result = subprocess.run(bash_command)
+
+    if result.returncode == 0:
+        print(f"Successfully encoded. Removing original file: {path}")
+        os.remove(path)
+    else:
+        print(f"Encoding failed with exit code {result.returncode}. Original file kept.")
 
 
 if __name__ == '__main__':
