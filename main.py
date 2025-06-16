@@ -23,7 +23,7 @@ def optimize_movies(path):
     else:
         new_name += '.mkv'
 
-    bashCommand = 'HandBrakeCLI -O -e x264 --preset=\"Super HQ 1080p30 Surround\" -i \'%s\' -o \'%s\'' % (
+    bashCommand = 'HandBrakeCLI -O -e nvenc_h265 --preset=\"Super HQ 1080p30 Surround\" --optimize -i \'%s\' -o \'%s\'' % (
     path, new_name)
     print(bashCommand)
     os.system(bashCommand)
